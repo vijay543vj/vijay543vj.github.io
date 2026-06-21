@@ -3,6 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Vijay — Data Analyst portfolio featuring SQL, Python, Excel, Power BI, and Tableau projects across Sales, HR, and E-Commerce analytics."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231a3355'/%3E%3Ctext x='50' y='68' font-size='55' font-family='Georgia,serif' font-weight='bold' fill='%232d8bf0' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E"
+    />
     <title>Vijay — Data Analyst Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
@@ -122,6 +130,92 @@
       }
       .nav-cta:hover {
         background: var(--accent) !important;
+      }
+
+      /* HAMBURGER (mobile only) */
+      .nav-burger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        width: 38px;
+        height: 38px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 200;
+      }
+      .nav-burger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--navy);
+        border-radius: 2px;
+        transition: transform 0.25s ease, opacity 0.25s ease;
+      }
+      .nav-burger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .nav-burger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .nav-burger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      /* MOBILE SLIDE-OUT MENU */
+      .mobile-menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(13, 27, 42, 0.5);
+        backdrop-filter: blur(2px);
+        z-index: 150;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      .mobile-menu-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .mobile-menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(78vw, 320px);
+        background: var(--cream);
+        z-index: 190;
+        box-shadow: -8px 0 30px rgba(13, 27, 42, 0.18);
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        padding: 100px 2rem 2rem;
+      }
+      .mobile-menu.open {
+        transform: translateX(0);
+      }
+      .mobile-nav-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+      }
+      .mobile-nav-links a {
+        font-size: 1.05rem;
+        font-weight: 500;
+        color: var(--navy);
+        text-decoration: none;
+        letter-spacing: 0.02em;
+      }
+      .mobile-nav-links a.nav-cta {
+        display: inline-block;
+        background: var(--navy) !important;
+        color: var(--white) !important;
+        padding: 0.65rem 1.2rem;
+        border-radius: 6px;
+        text-align: center;
+        width: fit-content;
       }
 
       /* LIVE BANNER */
@@ -637,7 +731,7 @@
         position: relative;
         background: var(--navy);
         overflow: hidden;
-        height: 210px;
+        height: 260px;
         cursor: pointer;
       }
       .screenshot-slides {
@@ -650,13 +744,20 @@
         height: 100%;
         position: relative;
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #0d1b2a 0%, #1a3355 100%);
       }
 
-      /* Real screenshot image */
+      /* Real screenshot image — "contain" so the FULL dashboard is always
+         visible (never cropped), letterboxed on a dark background to match
+         the card theme. Use "cover" only if you specifically want an image
+         to bleed edge-to-edge and don't mind cropping. */
       .screenshot-slide img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         display: block;
       }
 
@@ -844,6 +945,14 @@
       .tag-risk {
         background: #fce4d6;
         color: #a80000;
+      }
+      .tag-python {
+        background: #e7f0fd;
+        color: #2e5fa3;
+      }
+      .tag-tableau {
+        background: #fde8e8;
+        color: #b0392f;
       }
       .project-title {
         font-family: "DM Serif Display", serif;
@@ -1225,6 +1334,9 @@
         .nav-links {
           display: none;
         }
+        .nav-burger {
+          display: flex;
+        }
         .projects-grid {
           grid-template-columns: 1fr;
         }
@@ -1251,7 +1363,27 @@
         <li><a href="#about">About</a></li>
         <li><a href="#contact" class="nav-cta">Hire Me</a></li>
       </ul>
+      <button
+        class="nav-burger"
+        id="navBurger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobileMenu"
+      >
+        <span></span><span></span><span></span>
+      </button>
     </nav>
+
+    <!-- Mobile slide-out menu -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+      <ul class="mobile-nav-links">
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+      </ul>
+    </div>
 
     <!-- ═══════════════════ HERO ═══════════════════ -->
     <section class="hero">
@@ -1264,11 +1396,13 @@
         </h1>
         <p class="hero-tagline">I build data solutions that drive decisions.</p>
         <p class="hero-desc">
-          I'm Vijay, a Data Analyst skilled in <strong>Excel</strong>,
-          <strong>SQL</strong>, and <strong>Power BI</strong>, with practical
-          experience in dashboards, automation, and financial data analysis. I
-          focus on delivering accurate, structured insights that businesses can
-          act on. Ready to contribute from day one.
+          I'm Vijay, a Data Analyst skilled in <strong>SQL</strong>,
+          <strong>Python</strong>, <strong>Excel</strong>,
+          <strong>Power BI</strong>, and <strong>Tableau</strong>, with
+          practical experience in dashboards, RFM customer segmentation, and
+          business-ready reporting. I focus on delivering accurate, structured
+          insights that businesses can act on. Ready to contribute from day
+          one.
         </p>
         <div class="hero-actions">
           <a href="#projects" class="btn-primary">View Projects →</a>
@@ -1278,68 +1412,64 @@
         </div>
         <div class="hero-stats">
           <div class="stat-item">
-            <span class="stat-num">5</span
+            <span class="stat-num">3</span
             ><span class="stat-label">Projects Built</span>
           </div>
           <div class="stat-item">
-            <span class="stat-num">12K+</span
+            <span class="stat-num">19K+</span
             ><span class="stat-label">Rows Analysed</span>
           </div>
           <div class="stat-item">
-            <span class="stat-num">3</span
+            <span class="stat-num">5</span
             ><span class="stat-label">Tools Mastered</span>
           </div>
         </div>
       </div>
       <div class="hero-right">
         <div class="fc fc-main">
-          <div class="fc-label">Merchant Network Revenue</div>
-          <div class="fc-val">₹1,302 Lakhs</div>
-          <div class="fc-sub">Full Year 2023 · MySQL MIS System</div>
+          <div class="fc-label">Q3 Revenue Shortfall Diagnosed</div>
+          <div class="fc-val">₹16.85 Lakhs</div>
+          <div class="fc-sub">FY 2025 · NovaMart Sales Analysis</div>
           <div class="fc-bar"><div class="fc-bar-fill"></div></div>
         </div>
         <div class="fc fc-sql">
-          <div class="chip">MySQL</div>
+          <div class="chip">Python</div>
           <div class="fc-code">
-            <span class="kw">SELECT</span>
-            merchant,<br />&nbsp;&nbsp;revenue_lakhs,<br />&nbsp;&nbsp;health_status<br /><span
+            <span class="kw">rfm[</span>'segment'<span class="kw">] =</span
+            ><br />&nbsp;&nbsp;rfm.apply(<br />&nbsp;&nbsp;&nbsp;&nbsp;segment_customer,<br />&nbsp;&nbsp;&nbsp;&nbsp;<span
               class="kw"
-              >FROM</span
-            >
-            vw_scorecard<br /><span class="kw">WHERE</span> status =<br />&nbsp;&nbsp;<span
-              style="color: #e8a023"
-              >'RED'</span
-            >;
+              >axis=</span
+            ><span style="color: #e8a023">1</span><br />&nbsp;&nbsp;)
           </div>
         </div>
         <div class="fc fc-xl">
-          <div class="xl-title">📊 Excel Dashboard</div>
+          <div class="xl-title">👥 HR Attrition Dashboard</div>
           <div class="xl-row">
-            <span class="xl-label">Revenue</span
-            ><span class="xl-val">₹15.7L+</span>
+            <span class="xl-label">Attrition Rate</span
+            ><span class="xl-val">20.3%</span>
           </div>
           <div class="xl-row">
-            <span class="xl-label">Success Rate</span
-            ><span class="xl-badge">87%+</span>
+            <span class="xl-label">Replacement Cost</span
+            ><span class="xl-badge">₹9.76Cr</span>
           </div>
           <div class="xl-row">
-            <span class="xl-label">Records</span
-            ><span class="xl-val">500+</span>
+            <span class="xl-label">Employees</span
+            ><span class="xl-val">1,200</span>
           </div>
         </div>
         <div class="fc fc-risk">
-          <div class="rk-title">⚠ Risk Alerts</div>
+          <div class="rk-title">🛒 Cart Abandonment</div>
           <div class="rk-row">
             <div class="rk-dot dot-crit"></div>
-            <span class="rk-text">CRITICAL · 50 txns</span>
+            <span class="rk-text">Electronics · 72.6%</span>
           </div>
           <div class="rk-row">
             <div class="rk-dot dot-high"></div>
-            <span class="rk-text">HIGH · 368 txns</span>
+            <span class="rk-text">Home &amp; Kitchen · 69.7%</span>
           </div>
           <div class="rk-row">
             <div class="rk-dot dot-med"></div>
-            <span class="rk-text">MEDIUM · 557 txns</span>
+            <span class="rk-text">Beauty · 62.8%</span>
           </div>
         </div>
       </div>
@@ -1350,17 +1480,43 @@
       <div class="section-tag reveal">Technical Skills</div>
       <h2 class="section-title reveal reveal-delay-1">What I work with</h2>
       <p class="section-sub reveal reveal-delay-2">
-        From automated Excel billing systems to MySQL risk engines and
-        interactive Power BI dashboards — built across 5 real projects with
-        measurable outcomes.
+        From SQL-driven sales diagnostics to Python RFM customer segmentation
+        and interactive Power BI / Tableau dashboards — built across 3 real
+        end-to-end projects with measurable business outcomes.
       </p>
       <div class="skills-grid">
         <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-icon">🗄️</div>
+          <div class="skill-name">SQL / MySQL</div>
+          <div class="skill-tools">
+            CASE WHEN · Window Functions · Conditional Aggregation · NULLIF ·
+            Subqueries · UNION ALL · GROUP BY
+          </div>
+          <div class="skill-bar-wrap">
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" data-width="85"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-2">
+          <div class="skill-icon">🐍</div>
+          <div class="skill-name">Python</div>
+          <div class="skill-tools">
+            Pandas · NumPy · Matplotlib · Seaborn · RFM Segmentation ·
+            pd.qcut() · Correlation Analysis
+          </div>
+          <div class="skill-bar-wrap">
+            <div class="skill-bar-bg">
+              <div class="skill-bar-fill" data-width="80"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-3">
           <div class="skill-icon">📊</div>
           <div class="skill-name">Advanced Excel</div>
           <div class="skill-tools">
             VLOOKUP · INDEX-MATCH · SUMIFS · IF · Pivot Tables · Pivot Charts ·
-            Slicers · KPI Cards · Conditional Formatting · Data Validation
+            Slicers · KPI Cards · Conditional Formatting
           </div>
           <div class="skill-bar-wrap">
             <div class="skill-bar-bg">
@@ -1368,25 +1524,13 @@
             </div>
           </div>
         </div>
-        <div class="skill-card reveal reveal-delay-2">
-          <div class="skill-icon">🗄️</div>
-          <div class="skill-name">MySQL / SQL</div>
-          <div class="skill-tools">
-            Views · Stored Procedures · Self-JOINs · CASE WHEN · FK Constraints
-            · LOAD DATA · Indexes · Subqueries
-          </div>
-          <div class="skill-bar-wrap">
-            <div class="skill-bar-bg">
-              <div class="skill-bar-fill" data-width="82"></div>
-            </div>
-          </div>
-        </div>
-        <div class="skill-card reveal reveal-delay-3">
+
+        <div class="skill-card reveal reveal-delay-1">
           <div class="skill-icon">📈</div>
           <div class="skill-name">Power BI</div>
           <div class="skill-tools">
-            DAX Measures · Star Schema · Conditional Formatting · DATESINPERIOD
-            · MoM Growth · Dashboard Design
+            DAX Measures · CALCULATE · DIVIDE · VAR · Star Schema · Slicers ·
+            Dashboard Design
           </div>
           <div class="skill-bar-wrap">
             <div class="skill-bar-bg">
@@ -1394,26 +1538,12 @@
             </div>
           </div>
         </div>
-
-        <div class="skill-card reveal reveal-delay-1">
-          <div class="skill-icon">📋</div>
-          <div class="skill-name">MIS Reporting</div>
-          <div class="skill-tools">
-            Monthly KPI Reports · Merchant Scorecards · Dispute Tracking · SLA
-            Monitoring · Financial Dashboards
-          </div>
-          <div class="skill-bar-wrap">
-            <div class="skill-bar-bg">
-              <div class="skill-bar-fill" data-width="84"></div>
-            </div>
-          </div>
-        </div>
         <div class="skill-card reveal reveal-delay-2">
-          <div class="skill-icon">🚨</div>
-          <div class="skill-name">Risk Analytics</div>
+          <div class="skill-icon">📉</div>
+          <div class="skill-name">Tableau</div>
           <div class="skill-tools">
-            Fraud Detection Logic · Velocity Rules · Credit Breach Alerts ·
-            Anomaly Detection · Alert Classification
+            Calculated Fields · Dual-Axis Charts · Reference Lines · Use as
+            Filter · Heatmaps · Interactive Dashboards
           </div>
           <div class="skill-bar-wrap">
             <div class="skill-bar-bg">
@@ -1427,106 +1557,79 @@
     <!-- ═══════════════════ PROJECTS ═══════════════════ -->
     <section id="projects" style="background: var(--cream)">
       <div class="section-tag reveal">Portfolio Projects</div>
-      <h2 class="section-title reveal reveal-delay-1">5 End-to-End Projects</h2>
+      <h2 class="section-title reveal reveal-delay-1">3 End-to-End Projects</h2>
       <p class="section-sub reveal reveal-delay-2">
-        Spanning Excel automation, MySQL databases, and Power BI dashboards —
-        built on real financial datasets with practical, business-ready outputs.
+        Spanning Sales, HR, and E-Commerce analytics — built with SQL,
+        Python, Excel, Power BI, and Tableau on realistic business datasets
+        with full storytelling and stakeholder-driven analysis.
       </p>
 
       <div class="projects-grid">
-        <!-- ── PROJECT 1: Excel Automation ── -->
+        <!-- ── PROJECT 1: NovaMart Sales Analytics ── -->
         <div class="project-card reveal reveal-delay-1">
-          <!-- Screenshot Gallery -->
-          <div class="project-screenshots" id="gallery-p1">
-            <div class="screenshot-slides" id="slides-p1">
-              <!-- Slide 1 -->
+          <!-- Screenshot -->
+          <div class="project-screenshots">
+            <div class="screenshot-slides">
               <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                  <div class="placeholder-icon">📊</div>
-                  <div class="placeholder-title">Dashboard Overview</div>
-                  <div class="placeholder-hint">
-                  </div>
-                </div>
-              </div>
-              <!-- Slide 2 -->
-              <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                  <div class="placeholder-icon">🔢</div>
-                  <div class="placeholder-title">Formula View</div>
-                  <div class="placeholder-hint">
-                  </div>
-                </div>
+                <img
+                  src="screenshots/novamart_dashboard.png"
+                  alt="NovaMart Sales Intelligence Power BI dashboard showing total revenue, Q3 achievement, monthly revenue vs target, and sales rep performance"
+                  loading="lazy"
+                />
               </div>
             </div>
-            <div class="screenshot-label">Excel Automation Project</div>
-            <button class="screenshot-arr arr-prev" onclick="prevSlide('p1')">
-              ‹
-            </button>
-            <button class="screenshot-arr arr-next" onclick="nextSlide('p1')">
-              ›
-            </button>
-            <div class="screenshot-nav" id="dots-p1">
-              <button
-                class="screenshot-dot active"
-                onclick="goSlide('p1', 0)"
-              ></button>
-              <button
-                class="screenshot-dot"
-                onclick="goSlide('p1', 1)"
-              ></button>
-            </div>
+            <div class="screenshot-label">NovaMart Sales Analytics</div>
           </div>
 
           <div class="project-header">
             <div class="project-top">
-              <div class="project-tag tag-excel">Excel · Automation</div>
+              <div class="project-tag tag-mysql">SQL · Excel · Power BI</div>
               <div class="project-num">01</div>
             </div>
             <h3 class="project-title">
-              Excel Automation & Financial Data Analysis
+              NovaMart Sales Performance Analysis
             </h3>
             <p class="project-desc">
-              Multi-sheet Excel system for automated billing, EMI calculations,
-              and MIS reporting with dynamic formula-driven data processing.
+              Diagnosed a 32% Q3 revenue shortfall across 1,500 transactions
+              for a multi-region retailer — from raw SQL investigation to a
+              live Power BI executive dashboard.
             </p>
           </div>
           <div class="project-metrics">
             <div class="metric">
-              <span class="metric-val">Multi</span
-              ><span class="metric-label">Sheet System</span>
+              <span class="metric-val">32%</span
+              ><span class="metric-label">Q3 Shortfall Found</span>
             </div>
             <div class="metric">
-              <span class="metric-val">EMI</span
-              ><span class="metric-label">Auto-Calc</span>
+              <span class="metric-val">1.5K</span
+              ><span class="metric-label">Transactions</span>
             </div>
             <div class="metric">
-              <span class="metric-val">MIS</span
-              ><span class="metric-label">Reporting</span>
+              <span class="metric-val">13</span
+              ><span class="metric-label">DAX Measures</span>
             </div>
           </div>
           <div class="project-body">
             <ul class="project-features">
               <li>
-                Developed a multi-sheet Excel system for automated billing, EMI
-                calculations, and MIS reporting
+                Wrote 16 SQL queries across 8 sections to isolate the
+                underperforming region and sales reps behind the Q3 dip
               </li>
               <li>
-                Used VLOOKUP, INDEX-MATCH, SUMIFS & IF formulas for dynamic data
-                processing
+                Built a 6-sheet Excel workbook with a live, assumption-driven
+                Q4 forecast model and conditional formatting
               </li>
               <li>
-                Managed structured master & transaction data with validation and
-                conditional formatting
+                Designed a 1-page Power BI dashboard with 13 DAX measures and
+                region/quarter slicers for real-time drill-down
               </li>
             </ul>
           </div>
           <div class="project-footer">
+            <span class="tech-chip">SQL</span>
             <span class="tech-chip">Excel</span>
-            <span class="tech-chip">VLOOKUP</span>
-            <span class="tech-chip">INDEX-MATCH</span>
-            <span class="tech-chip">SUMIFS</span>
+            <span class="tech-chip">Power BI</span>
+            <span class="tech-chip">DAX</span>
             <div class="footer-links">
               <a
                 href="https://github.com/vijay543vj"
@@ -1544,116 +1647,94 @@
           </div>
         </div>
 
-        <!-- ── PROJECT 2: Excel Dashboard ── -->
+        <!-- ── PROJECT 2: PeopleFirst HR Attrition ── -->
         <div class="project-card reveal reveal-delay-2">
           <div class="project-screenshots" id="gallery-p2">
             <div class="screenshot-slides" id="slides-p2">
               <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                  <div class="placeholder-icon">📉</div>
-                  <div class="placeholder-title">KPI Dashboard</div>
-                  <div class="placeholder-hint">
-                  
-                  </div>
-                </div>
+                <img
+                  src="screenshots/peoplefirst_page1.png"
+                  alt="PeopleFirst Workforce Attrition Tableau dashboard page 1 showing attrition rate, employees lost, replacement cost, and attrition by department"
+                  loading="lazy"
+                />
               </div>
               <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-      
-                  <div class="placeholder-icon">📋</div>
-                  <div class="placeholder-title">Pivot Table & Charts</div>
-                  <div class="placeholder-hint">
-                   
-                  </div>
-                </div>
-              </div>
-              <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                
-                  <div class="placeholder-icon">🎛️</div>
-                  <div class="placeholder-title">Slicer Filters</div>
-                  <div class="placeholder-hint">
-                   
-                  </div>
-                </div>
+                <img
+                  src="screenshots/peoplefirst_page2.png"
+                  alt="PeopleFirst Risk Intelligence Tableau dashboard page 2 showing risk distribution, tenure danger zone, and high risk employee priority list"
+                  loading="lazy"
+                />
               </div>
             </div>
-            <div class="screenshot-label">Transaction Dashboard</div>
-            <button class="screenshot-arr arr-prev" onclick="prevSlide('p2')">
+            <div class="screenshot-label">PeopleFirst HR Attrition</div>
+            <button class="screenshot-arr arr-prev" onclick="prevSlide('p2')" aria-label="Previous screenshot">
               ‹
             </button>
-            <button class="screenshot-arr arr-next" onclick="nextSlide('p2')">
+            <button class="screenshot-arr arr-next" onclick="nextSlide('p2')" aria-label="Next screenshot">
               ›
             </button>
             <div class="screenshot-nav" id="dots-p2">
               <button
                 class="screenshot-dot active"
                 onclick="goSlide('p2', 0)"
+                aria-label="Go to screenshot 1"
               ></button>
               <button
                 class="screenshot-dot"
                 onclick="goSlide('p2', 1)"
-              ></button>
-              <button
-                class="screenshot-dot"
-                onclick="goSlide('p2', 2)"
+                aria-label="Go to screenshot 2"
               ></button>
             </div>
           </div>
-      
-
           <div class="project-header">
             <div class="project-top">
-              <div class="project-tag tag-excel">Excel · Dashboard</div>
+              <div class="project-tag tag-tableau">SQL · Python · Tableau</div>
               <div class="project-num">02</div>
             </div>
             <h3 class="project-title">
-              Transaction Monitoring & Performance Dashboard
+              HR Workforce Attrition Analysis
             </h3>
             <p class="project-desc">
-              Interactive Excel dashboard analyzing 500+ transaction records
-              with KPI cards, Pivot Charts, and Slicers for financial
-              performance monitoring.
+              Investigated a 20.3% employee attrition rate across 1,200
+              records — combining SQL segmentation, Python EDA, and an
+              interactive Tableau dashboard for CHRO-level reporting.
             </p>
           </div>
           <div class="project-metrics">
             <div class="metric">
-              <span class="metric-val">500+</span
-              ><span class="metric-label">Records</span>
+              <span class="metric-val">20.3%</span
+              ><span class="metric-label">Attrition Rate</span>
             </div>
             <div class="metric">
-              <span class="metric-val">₹15.7L+</span
-              ><span class="metric-label">Revenue</span>
+              <span class="metric-val">₹9.76Cr</span
+              ><span class="metric-label">Replacement Cost</span>
             </div>
             <div class="metric">
-              <span class="metric-val">87%+</span
-              ><span class="metric-label">Success Rate</span>
+              <span class="metric-val">41</span
+              ><span class="metric-label">High-Risk Employees</span>
             </div>
           </div>
           <div class="project-body">
             <ul class="project-features">
               <li>
-                Designed interactive dashboard using Pivot Tables, Pivot Charts,
-                and Slicers for 500+ transaction records
+                Built an 8-factor risk-scoring model in SQL to flag 41
+                active employees at high risk of leaving next
               </li>
               <li>
-                Built KPI cards tracking Total Transactions, Revenue (₹15.7L+),
-                Success Rate (87%+), and High-Value Transactions
+                Ran a full Python EDA (Pandas, Matplotlib, Seaborn) — 8
+                charts including a correlation heatmap and tenure danger zone
               </li>
               <li>
-                Generated actionable insights from a simulated financial
-                transaction dataset
+                Built a 2-page Tableau dashboard with department drill-down
+                filters and a live risk-level breakdown
               </li>
             </ul>
           </div>
           <div class="project-footer">
-            <span class="tech-chip">Excel</span>
-            <span class="tech-chip">Pivot Tables</span>
-            <span class="tech-chip">Slicers</span>
-            <span class="tech-chip">KPI Cards</span>
+            <span class="tech-chip">SQL</span>
+            <span class="tech-chip">Python</span>
+            <span class="tech-chip">Pandas</span>
+            <span class="tech-chip">Tableau</span>
             <div class="footer-links">
               <a
                 href="https://github.com/vijay543vj"
@@ -1671,378 +1752,69 @@
           </div>
         </div>
 
-        <!-- ── PROJECT 3: MySQL MIS ── -->
+        <!-- ── PROJECT 3: UrbanCart E-Commerce ── -->
         <div class="project-card reveal reveal-delay-3">
-          <div class="project-screenshots" id="gallery-p3">
-            <div class="screenshot-slides" id="slides-p3">
+          <div class="project-screenshots">
+            <div class="screenshot-slides">
               <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                  
-                  <div class="placeholder-icon">🗄️</div>
-                  <div class="placeholder-title">Schema & Tables</div>
-                  <div class="placeholder-hint">
-                   
-                  </div>
-                </div>
-              </div>
-              <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                 
-                  <div class="placeholder-icon">📋</div>
-                  <div class="placeholder-title">MIS Report Query Results</div>
-                  <div class="placeholder-hint">
-                  
-                  </div>
-                </div>
-              </div>
-              <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                 
-                  <div class="placeholder-icon">🟢</div>
-                  <div class="placeholder-title">Merchant Scorecard View</div>
-                  <div class="placeholder-hint">
-                   
-                  </div>
-                </div>
+                <img
+                  src="screenshots/urbancart_dashboard.png"
+                  alt="UrbanCart Revenue Intelligence Power BI dashboard showing cart abandonment rate, revenue leakage, customer segments donut chart, and RFM scatter plot"
+                  loading="lazy"
+                />
               </div>
             </div>
-            <div class="screenshot-label">MySQL MIS System</div>
-            <button class="screenshot-arr arr-prev" onclick="prevSlide('p3')">
-              ‹
-            </button>
-            <button class="screenshot-arr arr-next" onclick="nextSlide('p3')">
-              ›
-            </button>
-            <div class="screenshot-nav" id="dots-p3">
-              <button
-                class="screenshot-dot active"
-                onclick="goSlide('p3', 0)"
-              ></button>
-              <button
-                class="screenshot-dot"
-                onclick="goSlide('p3', 1)"
-              ></button>
-              <button
-                class="screenshot-dot"
-                onclick="goSlide('p3', 2)"
-              ></button>
-            </div>
+            <div class="screenshot-label">UrbanCart E-Commerce Insights</div>
           </div>
-
           <div class="project-header">
             <div class="project-top">
-              <div class="project-tag tag-mysql">MySQL · SQL</div>
+              <div class="project-tag tag-python">Python · Excel · Power BI</div>
               <div class="project-num">03</div>
             </div>
             <h3 class="project-title">
-              MIS Reporting System — Merchant Network
+              E-Commerce Customer &amp; Revenue Leakage Insights
             </h3>
             <p class="project-desc">
-              Normalized MySQL database with 3 views, 3 stored procedures, and 7
-              MIS report queries replacing manual monthly Excel reporting for a
-              120-merchant network.
+              Quantified ₹2.39Cr+ in cart abandonment revenue loss and built
+              an RFM-based customer segmentation model to prioritise
+              win-back campaigns for 1,300 customers.
             </p>
           </div>
           <div class="project-metrics">
             <div class="metric">
-              <span class="metric-val">12K</span
-              ><span class="metric-label">Transactions</span>
+              <span class="metric-val">68%</span
+              ><span class="metric-label">Cart Abandonment</span>
+            </div>
+            <div class="metric">
+              <span class="metric-val">₹2.39Cr</span
+              ><span class="metric-label">Revenue Leakage</span>
             </div>
             <div class="metric">
               <span class="metric-val">7</span
-              ><span class="metric-label">MIS Reports</span>
-            </div>
-            <div class="metric">
-              <span class="metric-val">3</span
-              ><span class="metric-label">Stored Procs</span>
+              ><span class="metric-label">RFM Segments</span>
             </div>
           </div>
           <div class="project-body">
             <ul class="project-features">
               <li>
-                4-table normalized schema with FK constraints, ENUMs, and
-                performance indexes
+                Performed RFM (Recency, Frequency, Monetary) segmentation on
+                3,000+ orders using Python's pd.qcut() quintile scoring
               </li>
               <li>
-                3 reusable views — Merchant Scorecard with GREEN / AMBER / RED
-                health status
+                Built an Excel revenue leakage model with adjustable
+                recovery-scenario assumptions and a win-back priority list
               </li>
               <li>
-                Stored procedures: monthly report, merchant health filter, SLA
-                breach tracking
-              </li>
-              <li>
-                7 queries: revenue trends, dispute resolution, regional
-                breakdown, payment mode
+                Designed a Power BI dashboard with 12 DAX measures and an
+                interactive Recency vs Monetary scatter plot
               </li>
             </ul>
           </div>
           <div class="project-footer">
-            <span class="tech-chip">MySQL 8.0</span>
-            <span class="tech-chip">Views</span>
-            <span class="tech-chip">Stored Proc</span>
-            <span class="tech-chip">LOAD DATA</span>
-            <div class="footer-links">
-              <a
-                href="https://github.com/vijay543vj"
-                target="_blank"
-                class="footer-link"
-                >View Code →</a
-              >
-            </div>
-          </div>
-        </div>
-
-        <!-- ── PROJECT 4: MySQL Risk ── -->
-        <div class="project-card reveal reveal-delay-1">
-          <div class="project-screenshots" id="gallery-p4">
-            <div class="screenshot-slides" id="slides-p4">
-              <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                
-                  <div class="placeholder-icon">🚨</div>
-                  <div class="placeholder-title">Risk Executive Summary</div>
-                  <div class="placeholder-hint">
-                  
-                  </div>
-                </div>
-              </div>
-              <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                
-                  <div class="placeholder-icon">⚠️</div>
-                  <div class="placeholder-title">High-Value Anomalies</div>
-                  <div class="placeholder-hint">
-                  
-                  </div>
-                </div>
-              </div>
-              <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-              
-                  <div class="placeholder-icon">👥</div>
-                  <div class="placeholder-title">
-                    High-Risk Customer Watchlist
-                  </div>
-                  <div class="placeholder-hint">
-               
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="screenshot-label">MySQL Risk Flagging</div>
-            <button class="screenshot-arr arr-prev" onclick="prevSlide('p4')">
-              ‹
-            </button>
-            <button class="screenshot-arr arr-next" onclick="nextSlide('p4')">
-              ›
-            </button>
-            <div class="screenshot-nav" id="dots-p4">
-              <button
-                class="screenshot-dot active"
-                onclick="goSlide('p4', 0)"
-              ></button>
-              <button
-                class="screenshot-dot"
-                onclick="goSlide('p4', 1)"
-              ></button>
-              <button
-                class="screenshot-dot"
-                onclick="goSlide('p4', 2)"
-              ></button>
-            </div>
-          </div>
-      
-
-          <div class="project-header">
-            <div class="project-top">
-              <div class="project-tag tag-risk">MySQL · Risk Analytics</div>
-              <div class="project-num">04</div>
-            </div>
-            <h3 class="project-title">Credit Card Risk Flagging System</h3>
-            <p class="project-desc">
-              5-rule MySQL transaction monitoring engine detecting fraud signals
-              across 12,000 records, with a nightly stored procedure populating
-              a compliance alert log.
-            </p>
-          </div>
-          <div class="project-metrics">
-            <div class="metric">
-              <span class="metric-val">975</span
-              ><span class="metric-label">Anomalies</span>
-            </div>
-            <div class="metric">
-              <span class="metric-val">50</span
-              ><span class="metric-label">CRITICAL Alerts</span>
-            </div>
-            <div class="metric">
-              <span class="metric-val">37</span
-              ><span class="metric-label">High-Risk Cust.</span>
-            </div>
-          </div>
-          <div class="project-body">
-            <ul class="project-features">
-              <li>
-                Rule 1: High-Value Anomaly — flags transactions at 3×, 5×, 10×
-                customer baseline spend
-              </li>
-              <li>
-                Rule 2: Velocity Check — self-JOIN detecting 5+ transactions
-                within a 24-hour window
-              </li>
-              <li>
-                Rule 3: Repeated Failure — 3+ failed transactions per month
-                pattern detection
-              </li>
-              <li>
-                Rule 4: Credit Limit Breach — single transaction ≥ 80% of
-                customer's credit limit
-              </li>
-              <li>
-                sp_populate_risk_alerts() — nightly procedure writing all flags
-                to the risk_alerts table
-              </li>
-            </ul>
-          </div>
-          <div class="project-footer">
-            <span class="tech-chip">MySQL 8.0</span>
-            <span class="tech-chip">Self-JOIN</span>
-            <span class="tech-chip">Subqueries</span>
-            <span class="tech-chip">CASE WHEN</span>
-            <div class="footer-links">
-              <a
-                href="https://github.com/vijay543vj"
-                target="_blank"
-                class="footer-link"
-                >View Code →</a
-              >
-            </div>
-          </div>
-        </div>
-
-        <!-- ── PROJECT 5: Power BI ── -->
-        <div class="project-card reveal reveal-delay-2">
-          <div class="project-screenshots" id="gallery-p5">
-            <div class="screenshot-slides" id="slides-p5">
-              <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                 
-                  <div class="placeholder-icon">📈</div>
-                  <div class="placeholder-title">Page 1 — Executive KPIs</div>
-                  <div class="placeholder-hint">
-                   
-                  </div>
-                </div>
-              </div>
-              <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                 
-                  <div class="placeholder-icon">🟢</div>
-                  <div class="placeholder-title">
-                    Page 2 — Risk & Compliance
-                  </div>
-                  <div class="placeholder-hint">
-                   
-                  </div>
-                </div>
-              </div>
-              <div class="screenshot-slide">
-                <div class="screenshot-placeholder">
-                  <div class="placeholder-grid"></div>
-                 
-                  <div class="placeholder-icon">📊</div>
-                  <div class="placeholder-title">Page 3 — Trend Analysis</div>
-                  <div class="placeholder-hint">
-                    
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="screenshot-label">Power BI Dashboard</div>
-            <button class="screenshot-arr arr-prev" onclick="prevSlide('p5')">
-              ‹
-            </button>
-            <button class="screenshot-arr arr-next" onclick="nextSlide('p5')">
-              ›
-            </button>
-            <div class="screenshot-nav" id="dots-p5">
-              <button
-                class="screenshot-dot active"
-                onclick="goSlide('p5', 0)"
-              ></button>
-              <button
-                class="screenshot-dot"
-                onclick="goSlide('p5', 1)"
-              ></button>
-              <button
-                class="screenshot-dot"
-                onclick="goSlide('p5', 2)"
-              ></button>
-            </div>
-          </div>
-          <div class="project-header">
-            <div class="project-top">
-              <div class="project-tag tag-powerbi">Power BI · DAX</div>
-              <div class="project-num">05</div>
-            </div>
-            <h3 class="project-title">
-              Payments Business Performance Dashboard
-            </h3>
-            <p class="project-desc">
-              3-page interactive Power BI dashboard on a 6-table star schema
-              with 6 custom DAX measures and conditional formatting throughout.
-            </p>
-          </div>
-          <div class="project-metrics">
-            <div class="metric">
-              <span class="metric-val">3</span
-              ><span class="metric-label">Pages</span>
-            </div>
-            <div class="metric">
-              <span class="metric-val">6</span
-              ><span class="metric-label">DAX Measures</span>
-            </div>
-            <div class="metric">
-              <span class="metric-val">6</span
-              ><span class="metric-label">Data Tables</span>
-            </div>
-          </div>
-          <div class="project-body">
-            <ul class="project-features">
-              <li>
-                Page 1: Executive KPIs — revenue, success rate, dispute rate,
-                monthly trend chart
-              </li>
-              <li>
-                Page 2: Risk & Compliance — merchant health scorecard with
-                traffic-light formatting
-              </li>
-              <li>
-                Page 3: Trend Analysis — MoM growth, 30-day rolling success,
-                region × month heatmap
-              </li>
-              <li>
-                DAX: Revenue_Lakhs, MoM_Revenue_Growth, Rolling_30D_Success,
-                Risk_Flagged
-              </li>
-              <li>
-                Published to Power BI Desktop — screenshots available on GitHub
-              </li>
-            </ul>
-          </div>
-          <div class="project-footer">
+            <span class="tech-chip">Python</span>
+            <span class="tech-chip">Excel</span>
             <span class="tech-chip">Power BI</span>
-            <span class="tech-chip">DAX</span>
-            <span class="tech-chip">Star Schema</span>
-            <span class="tech-chip">DATESINPERIOD</span>
+            <span class="tech-chip">RFM Analysis</span>
             <div class="footer-links">
               <a
                 href="https://github.com/vijay543vj"
@@ -2054,6 +1826,7 @@
           </div>
         </div>
       </div>
+
 
 
     <!-- ═══════════════════ ABOUT ═══════════════════ -->
@@ -2079,7 +1852,7 @@
             <span>🎯</span>&nbsp;Target: Data Analyst · MIS · BI Roles
           </div>
           <div class="about-detail-row">
-            <span>🛠️</span>&nbsp;Excel · SQL · Power BI
+            <span>🛠️</span>&nbsp;SQL · Python · Excel · Power BI · Tableau
           </div>
         </div>
         <div class="floating-mini top-right">✅ BCA Graduate</div>
@@ -2097,15 +1870,17 @@
         <p class="about-intro reveal reveal-delay-2">
           I am Vijay, a data analytics enthusiast with a strong foundation in
           data handling, analysis, and reporting. I have hands-on experience
-          working with tools such as Advanced Excel, SQL, and Power BI to
+          working with SQL, Python, Advanced Excel, Power BI, and Tableau to
           transform raw data into meaningful insights.
         </p>
         <p class="about-intro reveal reveal-delay-3">
-          Through my academic projects, I have built practical solutions like
-          automated Excel systems for billing and financial analysis, as well as
-          interactive dashboards for transaction monitoring. These projects
-          involved working with large datasets, applying advanced formulas, and
-          creating visual reports that support data-driven decision-making.
+          Through my project portfolio, I have built practical, end-to-end
+          solutions across three business domains — diagnosing a regional
+          sales shortfall with SQL and Power BI, investigating workforce
+          attrition with Python and Tableau, and segmenting e-commerce
+          customers using RFM analysis. Each project involved working with
+          realistic datasets, applying SQL, Python, and DAX, and creating
+          visual reports that support data-driven decision-making.
         </p>
         <p class="about-intro reveal reveal-delay-4">
           I focus on accuracy, structure, and clarity in my work, with an
@@ -2122,7 +1897,7 @@
             <div class="edu-school">
               Govt. Degree College, Solan, Himachal Pradesh
             </div>
-            <div class="edu-year">Graduated April 2026</div>
+            <div class="edu-year">Graduated 2026</div>
           </div>
           <div class="edu-card reveal reveal-delay-2">
             <div class="edu-degree">Senior Secondary (XII) — HP Board</div>
@@ -2130,6 +1905,22 @@
               Himachal Pradesh Board of School Education
             </div>
             <div class="edu-year">2023</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 2rem">
+          <div
+            class="section-tag reveal"
+            style="margin-bottom: 0.8rem"
+          >
+            Certifications
+          </div>
+          <div class="edu-card reveal reveal-delay-3">
+            <div class="edu-degree">
+              Google Data Analytics Professional Certificate
+            </div>
+            <div class="edu-school">Coursera · Issued by Google</div>
+            <div class="edu-year">2026</div>
           </div>
         </div>
       </div>
@@ -2142,9 +1933,7 @@
         Ready to contribute from day one
       </h2>
       <p class="section-sub reveal reveal-delay-2">
-        Recent BCA graduate actively seeking Data Analyst roles in fintech,
-        banking, MIS reporting, or business intelligence. Open to full-time,
-        apprenticeship, and internship roles across India.
+        Recent BCA graduate actively seeking Data Analyst, MIS Executive and Business Intelligence roles. Open to full-time and internship opportunities across industries, including finance, healthcare, e-commerce, retail, IT, and other domains across India.
       </p>
       <div class="contact-cards reveal reveal-delay-3">
         <a href="mailto:vjv241620@gmail.com" class="contact-card">
@@ -2167,13 +1956,13 @@
           <div class="cc-value">vijay543vj</div>
         </a>
         <a
-          href="https://www.linkedin.com/in/vijay-mohan-286b84386"
+          href="https://linkedin.com/in/vijay-vj-286b84386"
           target="_blank"
           class="contact-card"
         >
           <div class="cc-icon">💼</div>
           <div class="cc-label">LinkedIn</div>
-          <div class="cc-value">Vijay Mohan</div>
+          <div class="cc-value">vijay-vj-286b84386</div>
         </a>
       </div>
       <p class="contact-cta reveal reveal-delay-4">
@@ -2226,12 +2015,46 @@
         });
       });
 
+      // ── MOBILE HAMBURGER MENU
+      const navBurger = document.getElementById("navBurger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
+
+      function openMobileMenu() {
+        navBurger.classList.add("open");
+        mobileMenu.classList.add("open");
+        mobileMenuOverlay.classList.add("open");
+        navBurger.setAttribute("aria-expanded", "true");
+        navBurger.setAttribute("aria-label", "Close menu");
+        document.body.style.overflow = "hidden";
+      }
+      function closeMobileMenu() {
+        navBurger.classList.remove("open");
+        mobileMenu.classList.remove("open");
+        mobileMenuOverlay.classList.remove("open");
+        navBurger.setAttribute("aria-expanded", "false");
+        navBurger.setAttribute("aria-label", "Open menu");
+        document.body.style.overflow = "";
+      }
+      navBurger.addEventListener("click", () => {
+        mobileMenu.classList.contains("open")
+          ? closeMobileMenu()
+          : openMobileMenu();
+      });
+      mobileMenuOverlay.addEventListener("click", closeMobileMenu);
+      document.querySelectorAll(".mobile-nav-links a").forEach((a) => {
+        a.addEventListener("click", closeMobileMenu);
+      });
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 900) closeMobileMenu();
+      });
+
       // ── SCREENSHOT GALLERY
       const state = {};
       function initGallery(id) {
         state[id] = 0;
       }
-      ["p1", "p2", "p3", "p4", "p5"].forEach(initGallery);
+      ["p2"].forEach(initGallery);
 
       function updateGallery(id) {
         const slides = document.getElementById("slides-" + id);
@@ -2262,7 +2085,7 @@
 
       // Auto-advance galleries
       setInterval(
-        () => ["p1", "p2", "p3", "p4", "p5"].forEach(nextSlide),
+        () => ["p2"].forEach(nextSlide),
         4000,
       );
 
